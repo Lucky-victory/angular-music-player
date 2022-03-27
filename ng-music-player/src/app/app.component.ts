@@ -19,9 +19,12 @@ this.service.getSongs().subscribe(response =>{
   }
 
   playSong(event:Event){
-const src=event.target.dataset.src;
+const target:HTMLElement=(event.target as HTMLElement);
+
+const src:string =target.dataset["src"] as string;
 
 
+this.audio.src=src;
     this.audio.play();
     
   }
