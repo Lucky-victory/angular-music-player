@@ -1,0 +1,16 @@
+<div class="container">
+  <h1>music player</h1>
+
+  <ul>
+    <li *ngFor="let song of songList">
+
+     <button (click)="pauseSong()">
+
+       {{song.title}}
+     </button> 
+      {{song.artist}}
+      <img src="{{song.image}}" [attr.data-src]="song.url" alt="" width="400px" height="300px"  (click)="playSong($event)" />
+    
+    </li>
+  </ul>
+</div>
