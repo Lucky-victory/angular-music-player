@@ -1,16 +1,16 @@
 <div class="container">
-  <h1>music player</h1>
-
-  <ul>
-    <li *ngFor="let song of songList">
-
-     <button (click)="pauseSong()">
-
-       {{song.title}}
-     </button> 
-      {{song.artist}}
-      <img src="{{song.image}}" [attr.data-src]="song.url" alt="" width="400px" height="300px"  (click)="playSong($event)" />
-    
-    </li>
-  </ul>
-</div>
+  <div class="image-wrapper">
+     <img src="{{song.image}}" alt="" class="image">
+  </div>
+  <h2 class="title">{{song.title}}</h2>
+  <span class="artist">{{song.artist}}</span>  
+  <div class="control-btns-wrapper">
+     <button class="control-btn material-icons " (click)="prevSong()">skip_previous</button>
+     <button class="control-btn play-btn material-icons" (click)="playAndPauseSong()">
+      play_arrow 
+        
+   </button>
+   
+     <button class="control-btn material-icons" (click)="nextSong()">skip_next</button>
+  </div>
+ </div>
