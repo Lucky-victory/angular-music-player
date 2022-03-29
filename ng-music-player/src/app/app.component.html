@@ -1,3 +1,8 @@
+<style>
+   @import url("https://fonts.googleapis.com/icon?family=Material+Icons");
+
+</style>
+
 <div class="container">
   <div class="image-wrapper">
      <img src="{{song.image}}" alt="" class="image">
@@ -7,8 +12,8 @@
   <div class="control-btns-wrapper">
      <button class="control-btn material-icons " (click)="prevSong()">skip_previous</button>
      <button class="control-btn play-btn material-icons" (click)="playAndPauseSong()">
-      play_arrow 
-        
+        {{!isPlaying ? 'play_arrow' : 'pause'}}
+      
    </button>
    
      <button class="control-btn material-icons" (click)="nextSong()">skip_next</button>

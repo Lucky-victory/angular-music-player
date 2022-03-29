@@ -12,27 +12,34 @@ export class AppComponent implements OnInit {
   songList:ISongList[]=[];
   isPlaying:boolean=false;
   currentIndex:number=0;
-  song:ISongList={
+  song:ISongList ={
     title:'',
-    artist: '',
-    image: '',
-    url: ''
+    artist:'',
+    url:'',
+    image:''
   };
-  audio:HTMLAudioElement=new Audio('https://raw.githubusercontent.com/Lucky-victory/zplayer/master/songs/a-better-place-to-live.mp3');
+  audio:HTMLAudioElement=new Audio();
 
   constructor(private service:AppService){
-  }
-  ngOnInit(){
-    this.service.getSongs().subscribe(response =>{
+    this.service.getSongs().subscribe(response=>{
       this.songList=response;
+      this.song=this.songList[this.currentIndex];
+      this.audio.src=this.song.url;
+    });
+  
+    this.audio.addEventListener('ended',()=>{
+      this.nextSong()
     })
-    
-    this.song=this.songList[this.currentIndex];
-    this.audio.src=this.song.url;
   }
+
+  ngOnInit(){
+    
+    }
 playAndPauseSong():void{
+  
   if(this.isPlaying){
 this.pauseSong();
+
   }
   else{
     this.playSong();
@@ -40,7 +47,7 @@ this.pauseSong();
 
 }
   playSong():void{
-this.isPlaying=true;
+   this.isPlaying=true;
     this.audio.play();
     
   }
@@ -50,15 +57,22 @@ this.isPlaying=true;
   }
   nextSong():void{
     this.currentIndex++;
+    if(this.currentIndex > this.songList.length -1){
+      this.currentIndex=0;
+    }
     this.song=this.songList[this.currentIndex];
 this.audio.src=this.song.url;
+this.playSong()
 
   }
   prevSong():void{
     this.currentIndex--;
+    if(this.currentIndex < 0){
+      this.currentIndex=this.songList.length -1;
+    }
     this.song=this.songList[this.currentIndex];
     this.audio.src=this.song.url;
-
+this.playSong();
   }
 
 }
