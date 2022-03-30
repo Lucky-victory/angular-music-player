@@ -10,6 +10,8 @@
   <h2 class="title">{{song.title}}</h2>
   <span class="artist">{{song.artist}}</span>  
   <div class="control-btns-wrapper">
+   <button class="control-btn material-icons {{isShuffle ? 'shuffled':''}}" (click)="shuffle()">shuffle</button>
+
      <button class="control-btn material-icons " (click)="prevSong()">skip_previous</button>
      <button class="control-btn play-btn material-icons" (click)="playAndPauseSong()">
         {{!isPlaying ? 'play_arrow' : 'pause'}}
@@ -17,5 +19,7 @@
    </button>
    
      <button class="control-btn material-icons" (click)="nextSong()">skip_next</button>
+     <button class="control-btn material-icons"  (click)="repeat()">{{repeatIcon}}</button>
+
   </div>
  </div>

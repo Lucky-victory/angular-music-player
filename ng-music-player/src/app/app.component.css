@@ -28,6 +28,9 @@ html{
  padding: 1.5rem;
  max-width: 600px;
  width: 100%;
+ display: flex;
+ justify-content: center;
+ flex-direction: column;
 }
 
 .image-wrapper{
@@ -37,6 +40,7 @@ html{
    border-radius: 10px;
    overflow: hidden;
    box-shadow: 0 8px 14px #3335,-5px 0 14px #5553;
+   margin: auto;
    margin-bottom: 1rem;
 }
 .image{
@@ -69,12 +73,17 @@ html{
    justify-content: center;
    align-items: center;
    overflow: hidden;
+   background:linear-gradient(120deg,#31abf1,#04a7bd);
+   color: #fff;
 }
-
+.control-btn.shuffled{
+   color: antiquewhite;
+   background: #000;
+}
 .control-btn.play-btn{
    width: 3.5rem;
    height: 3.5rem;
    font-size: 2rem;
-   color: #065583;
-   border: 4px solid #065583;
+   /* color: #065583; */
+   border: 3px solid #3082b1;
 }

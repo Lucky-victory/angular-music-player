@@ -1,6 +1,6 @@
 import { Component} from '@angular/core';
 import { AppService } from './app.service';
-import { IApp, ISongList } from './app.type';
+import { IApp, ISongList, IRepeatState } from './app.type';
 
 @Component({
   selector: 'app-root',
@@ -14,6 +14,14 @@ export class AppComponent implements IApp{
   currentIndex:number=0;
   isRepeat:boolean=false;
 isShuffle:boolean=false;
+repeatIcon:string='repeat';
+repeatState:IRepeatState={
+  REPEAT:'repeat',
+  REPEAT_ONE:'repeat one',
+  REPEAT_OFF:'repeat off'
+
+};
+
   song:ISongList ={
     title:'',
     artist:'',
@@ -21,7 +29,7 @@ isShuffle:boolean=false;
     image:''
   };
   audio:HTMLAudioElement=new Audio();
-
+isLoop:boolean=false;
   constructor(private service:AppService){
     this.service.getSongs().subscribe(response=>{
       this.songList=response;
@@ -34,10 +42,24 @@ isShuffle:boolean=false;
     })
   }
   repeat():void{
+    this.isLoop=true;
+this.audio.loop=this.isLoop;
+this.repeatIcon='repeat_one';
+if(this.isLoop){
+  this.audio.loop=false;
+  this.isLoop=false;
+  this.isRepeat=true;
+}
+if(this.isRepeat && !this.audio.loop){
+  this.repeatIcon='repeat';
+}
+else{
+this.isRepeat=false;
 
+}
   }
   shuffle():void{
-
+this.isShuffle=!this.isShuffle;
   }
 
 playAndPauseSong():void{

@@ -15,3 +15,9 @@ export interface IApp{
     repeat:()=>void;
     shuffle:()=>void;
 }
+export interface IRepeatState {
+    REPEAT:string;
+REPEAT_ONE:string;
+REPEAT_OFF:string;
+
+}
