@@ -1,17 +1,19 @@
-import { Component, OnInit } from '@angular/core';
+import { Component} from '@angular/core';
 import { AppService } from './app.service';
-import { ISongList } from './app.type';
+import { IApp, ISongList } from './app.type';
 
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css']
 })
-export class AppComponent implements OnInit {
+export class AppComponent implements IApp{
   title = 'ng-music-player';
   songList:ISongList[]=[];
   isPlaying:boolean=false;
   currentIndex:number=0;
+  isRepeat:boolean=false;
+isShuffle:boolean=false;
   song:ISongList ={
     title:'',
     artist:'',
@@ -31,10 +33,13 @@ export class AppComponent implements OnInit {
       this.nextSong()
     })
   }
+  repeat():void{
 
-  ngOnInit(){
-    
-    }
+  }
+  shuffle():void{
+
+  }
+
 playAndPauseSong():void{
   
   if(this.isPlaying){
