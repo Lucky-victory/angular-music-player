@@ -7,13 +7,14 @@ image:string;
 url:string
 }
 export interface IApp{
-    playSong:()=> void;
-    pauseSong:()=>void;
-    playAndPauseSong:()=>void;
-    nextSong:()=>void;
-    prevSong:()=>void;
+    play:()=> void;
+    pause:()=>void;
+    playAndPause:()=>void;
+    next:()=>void;
+    previous:()=>void;
     repeat:()=>void;
     shuffle:()=>void;
+    onEnded:()=>void;
 }
 export interface IRepeatState {
     REPEAT:string;

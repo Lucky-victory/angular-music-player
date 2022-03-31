@@ -14,6 +14,10 @@
 html{
    width: 100%;
 }
+.material-icons{
+   /* font-size: inherit; */
+   overflow: hidden;
+}
 :host{
    width: 100%;
    min-height: 100vh;
@@ -31,17 +35,34 @@ html{
  display: flex;
  justify-content: center;
  flex-direction: column;
+ overflow: hidden;
 }
 
+.images-container{
+   display: flex;
+   align-items: center;
+   flex-direction: row;
+   gap: 3rem;
+   position: relative;
+   width: 350px;
+   margin: 1rem auto;
+   height: 350px;
+}
 .image-wrapper{
+   flex-shrink: 0;
    max-width: 100%;
-   width: 320px;
-   height: 320px;
-   border-radius: 10px;
+   width: 300px;
+   height: 300px;
+   border-radius: 1rem;
    overflow: hidden;
    box-shadow: 0 8px 14px #3335,-5px 0 14px #5553;
    margin: auto;
    margin-bottom: 1rem;
+   opacity: 0.5;
+}
+.image-wrapper.active{
+   transform: scale(1.1);
+   opacity: 1;
 }
 .image{
    width: 100%;
@@ -73,8 +94,14 @@ html{
    justify-content: center;
    align-items: center;
    overflow: hidden;
-   background:linear-gradient(120deg,#31abf1,#04a7bd);
-   color: #fff;
+   background:#fff;
+   color: #0d11d3;
+   transition: 0.3s ease-in-out;
+   
+}
+.control-btn:hover{
+   transform: scale(1.05,1.05);
+   transition: 0.3s ease-in-out;
 }
 .control-btn.shuffled{
    color: antiquewhite;
@@ -86,4 +113,44 @@ html{
    font-size: 2rem;
    /* color: #065583; */
    border: 3px solid #3082b1;
+}
+.progress-wrapper{
+   display: flex;
+   align-items: center;
+   gap: 1rem;
+}
+.progress{
+   width: 100%;
+   height: 10px;
+   border-radius: 40px;
+   background: transparent;
+   position: relative;
+background: #0002;
+margin: 1rem auto;
+cursor: pointer;
+box-shadow: inset 3px 3px 3px #d1bbd8,2px -3px 5px inset #fff;
+}
+.progress-fill{
+   position: relative;
+   height: 100%;
+   width: 0%;
+   border-radius: inherit;
+   background: #02caca;
+transition: 0.1s linear ;
+}
+.progress:hover .progress-fill::before{
+   transition: 0.3s ease-out;
+   transform:translateY(-50%) scaleX(1);
+}
+.progress-fill::before{
+   content: '';
+   position: absolute;
+   width: 17px;
+   height: 17px;
+   border-radius: 50%;
+   background: inherit;
+   top: 50%;
+   right: 0;
+   transform: translateY(-50%) scaleX(0);
+   transition: 0.3s ease-out;
 }

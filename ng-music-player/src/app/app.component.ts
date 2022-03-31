@@ -1,4 +1,5 @@
 import { Component} from '@angular/core';
+import { Utils } from 'src/helpers/util';
 import { AppService } from './app.service';
 import { IApp, ISongList, IRepeatState } from './app.type';
 
@@ -11,46 +12,79 @@ export class AppComponent implements IApp{
   title = 'ng-music-player';
   songList:ISongList[]=[];
   isPlaying:boolean=false;
-  currentIndex:number=0;
+   currentIndex:number=0;
   isRepeat:boolean=false;
 isShuffle:boolean=false;
 repeatIcon:string='repeat';
+ progressPercent!:string;
 repeatState:IRepeatState={
-  REPEAT:'repeat',
+  REPEAT:'repeat all',
   REPEAT_ONE:'repeat one',
   REPEAT_OFF:'repeat off'
 
 };
-
+st:string='';
+totalDuration!:string;
+timePlayed!:string;
   song:ISongList ={
     title:'',
     artist:'',
     url:'',
     image:''
   };
-  audio:HTMLAudioElement=new Audio();
-isLoop:boolean=false;
+  private audio:HTMLAudioElement=new Audio();
   constructor(private service:AppService){
     this.service.getSongs().subscribe(response=>{
       this.songList=response;
       this.song=this.songList[this.currentIndex];
       this.audio.src=this.song.url;
     });
-  
+    this.st=-(this.currentIndex * 320)+'px';
     this.audio.addEventListener('ended',()=>{
-      this.nextSong()
+      this.onEnded()
+    });
+    this.audio.addEventListener('loadedmetadata',()=>{
+      this.loadMetadata();
+    });
+    this.audio.addEventListener('timeupdate',()=>{
+      this.timeUpdate();
     })
+
+}
+onEnded(){
+if(this.isRepeat){
+  this.next();
+}
+else{
+  this.pause();
+}
+}
+seek(event:Event){
+const target=event.currentTarget as HTMLElement;
+console.log(target);
+
+}
+  timeUpdate():void{
+    const {currentTime,duration}=this.audio;
+this.progressPercent=String((currentTime / duration) * 100)+'%';
+this.timePlayed=Utils.secondsToTime(currentTime);
+this.totalDuration=Utils.secondsToTime(duration - currentTime);
+  }
+  loadMetadata():void{
+const {duration}=this.audio;
+this.totalDuration=Utils.secondsToTime(duration);
   }
   repeat():void{
-    this.isLoop=true;
-this.audio.loop=this.isLoop;
-this.repeatIcon='repeat_one';
-if(this.isLoop){
-  this.audio.loop=false;
-  this.isLoop=false;
-  this.isRepeat=true;
+    const isLoop:boolean=this.audio.loop;
+    if(!isLoop && !this.isRepeat){
+  this.repeatIcon='repeat_one';
+  this.audio.loop=true;
+  this.isRepeat=false;
+
 }
-if(this.isRepeat && !this.audio.loop){
+else if(!this.isRepeat && this.audio.loop){
+  this.audio.loop=false;
+  this.isRepeat=true;
   this.repeatIcon='repeat';
 }
 else{
@@ -62,44 +96,48 @@ this.isRepeat=false;
 this.isShuffle=!this.isShuffle;
   }
 
-playAndPauseSong():void{
+playAndPause():void{
   
   if(this.isPlaying){
-this.pauseSong();
+this.pause();
 
   }
   else{
-    this.playSong();
+    this.play();
   }
 
 }
-  playSong():void{
+  play():void{
    this.isPlaying=true;
     this.audio.play();
     
   }
-  pauseSong():void{
+  pause():void{
     this.isPlaying=false;
     this.audio.pause();
   }
-  nextSong():void{
+  next():void{
     this.currentIndex++;
     if(this.currentIndex > this.songList.length -1){
       this.currentIndex=0;
     }
     this.song=this.songList[this.currentIndex];
 this.audio.src=this.song.url;
-this.playSong()
+this.play();
+this.st=-(this.currentIndex * 320)+'px';
+
 
   }
-  prevSong():void{
+  previous():void{
     this.currentIndex--;
     if(this.currentIndex < 0){
       this.currentIndex=this.songList.length -1;
     }
     this.song=this.songList[this.currentIndex];
     this.audio.src=this.song.url;
-this.playSong();
+this.play();
+this.st=-(this.currentIndex * 320)+'px'
+
   }
 
 }
