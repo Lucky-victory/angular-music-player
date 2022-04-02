@@ -4,11 +4,11 @@ export interface ISongList{
     id:(string | number);
     title:string;
    artist:string;
-image:string;
+cover:string;
 url:string,
 favorite:boolean
 }
-export interface IApp{
+export interface IPlayer{
     songList:ISongList[];
   isPlaying:boolean;
   song:ISongList;

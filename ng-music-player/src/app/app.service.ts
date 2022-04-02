@@ -1,6 +1,6 @@
 import { Injectable } from "@angular/core";
 import {HttpClient} from '@angular/common/http';
-import { ISongList } from "./app.type";
+import { ISongList } from "./player/player.type";
 import { Observable } from "rxjs";
 
 

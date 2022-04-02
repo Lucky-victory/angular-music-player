@@ -2,14 +2,14 @@
 {"id":1,
     "title":"no way home",
 "artist":"john mark",
-"image":"https://images.pexels.com/photos/11012766/pexels-photo-11012766.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940",
+"cover":"https://images.pexels.com/photos/11012766/pexels-photo-11012766.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940",
 "url":"https://raw.githubusercontent.com/Lucky-victory/zplayer/master/songs/a-better-place-to-live.mp3",
 "favorite":true
 },
 {"id":2,
     "title":"i am here",
 "artist":"max hills",
-"image":"https://images.pexels.com/photos/9358149/pexels-photo-9358149.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940",
+"cover":"https://images.pexels.com/photos/9358149/pexels-photo-9358149.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940",
 "url":"https://raw.githubusercontent.com/Lucky-victory/zplayer/master/songs/alone.mp3",
 "favorite":false
 
@@ -17,7 +17,7 @@
 {"id":3,
     "title":"we are here",
 "artist":"little pro",
-"image":"https://images.pexels.com/photos/2787857/pexels-photo-2787857.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500",
+"cover":"https://images.pexels.com/photos/2787857/pexels-photo-2787857.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500",
 "url":"https://raw.githubusercontent.com/Lucky-victory/zplayer/master/songs/angels-like-you.mp3",
 "favorite":true
 
