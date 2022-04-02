@@ -1,7 +1,7 @@
 import { Component} from '@angular/core';
 import { Utils } from 'src/helpers/util';
 import { AppService } from './app.service';
-import { IApp, ISongList, IRepeatState } from './app.type';
+import { IApp, ISongList, RepeatState } from './app.type';
 
 @Component({
   selector: 'app-root',
@@ -12,34 +12,32 @@ export class AppComponent implements IApp{
   title = 'ng-music-player';
   songList:ISongList[]=[];
   isPlaying:boolean=false;
+  song:ISongList={
+    artist:'',
+    title:'',
+    url:'',
+    image:'',
+    id:'',
+    favorite:false
+  };
    currentIndex:number=0;
-  isRepeat:boolean=false;
+  isRepeatAll:boolean=false;
 isShuffle:boolean=false;
 repeatIcon:string='repeat';
  progressPercent!:string;
-repeatState:IRepeatState={
-  REPEAT:'repeat all',
-  REPEAT_ONE:'repeat one',
-  REPEAT_OFF:'repeat off'
+repeatState:RepeatState='repeat off';
 
-};
-st:string='';
 totalDuration!:string;
 timePlayed!:string;
-  song:ISongList ={
-    title:'',
-    artist:'',
-    url:'',
-    image:''
-  };
   private audio:HTMLAudioElement=new Audio();
   constructor(private service:AppService){
     this.service.getSongs().subscribe(response=>{
+      
       this.songList=response;
       this.song=this.songList[this.currentIndex];
       this.audio.src=this.song.url;
     });
-    this.st=-(this.currentIndex * 320)+'px';
+    
     this.audio.addEventListener('ended',()=>{
       this.onEnded()
     });
@@ -52,51 +50,61 @@ timePlayed!:string;
 
 }
 onEnded(){
-if(this.isRepeat){
+if(this.isRepeatAll){
   this.next();
 }
 else{
   this.pause();
 }
 }
-seek(event:Event){
+seek(event:(MouseEvent | TouchEvent)){
 const target=event.currentTarget as HTMLElement;
-console.log(target);
+const {left:progressBarLeftOffset}=target.getBoundingClientRect();
+const {clientWidth}=target;
+const clientX:number=event.type.includes('mouse') ? (event as MouseEvent).clientX : (event as TouchEvent).changedTouches[0].clientX;
+// const offsetX:number=(clientX - progressBarLeftOffset);
+const {duration}=this.audio;
+const seekingPoint:number=(clientX/clientWidth) * duration;
+
+
+this.audio.currentTime=seekingPoint;
 
 }
-  timeUpdate():void{
+  timeUpdate(){
     const {currentTime,duration}=this.audio;
 this.progressPercent=String((currentTime / duration) * 100)+'%';
 this.timePlayed=Utils.secondsToTime(currentTime);
-this.totalDuration=Utils.secondsToTime(duration - currentTime);
+this.totalDuration='- '+Utils.secondsToTime(duration - currentTime);
   }
-  loadMetadata():void{
+  loadMetadata(){
 const {duration}=this.audio;
 this.totalDuration=Utils.secondsToTime(duration);
   }
-  repeat():void{
+  repeat(){
     const isLoop:boolean=this.audio.loop;
-    if(!isLoop && !this.isRepeat){
+    if(!isLoop && !this.isRepeatAll){
   this.repeatIcon='repeat_one';
+  this.repeatState='repeat one';
   this.audio.loop=true;
-  this.isRepeat=false;
+  this.isRepeatAll=false;
 
 }
-else if(!this.isRepeat && this.audio.loop){
+else if(!this.isRepeatAll && this.audio.loop){
   this.audio.loop=false;
-  this.isRepeat=true;
+  this.isRepeatAll=true;
   this.repeatIcon='repeat';
+  this.repeatState='repeat all';
 }
 else{
-this.isRepeat=false;
-
+this.isRepeatAll=false;
+this.repeatState='repeat off';
 }
   }
-  shuffle():void{
+  shuffle(){
 this.isShuffle=!this.isShuffle;
   }
 
-playAndPause():void{
+playAndPause(){
   
   if(this.isPlaying){
 this.pause();
@@ -107,16 +115,16 @@ this.pause();
   }
 
 }
-  play():void{
+  play(){
    this.isPlaying=true;
     this.audio.play();
     
   }
-  pause():void{
+  pause(){
     this.isPlaying=false;
     this.audio.pause();
   }
-  next():void{
+  next(){
     this.currentIndex++;
     if(this.currentIndex > this.songList.length -1){
       this.currentIndex=0;
@@ -124,11 +132,11 @@ this.pause();
     this.song=this.songList[this.currentIndex];
 this.audio.src=this.song.url;
 this.play();
-this.st=-(this.currentIndex * 320)+'px';
+
 
 
   }
-  previous():void{
+  previous(){
     this.currentIndex--;
     if(this.currentIndex < 0){
       this.currentIndex=this.songList.length -1;
@@ -136,7 +144,15 @@ this.st=-(this.currentIndex * 320)+'px';
     this.song=this.songList[this.currentIndex];
     this.audio.src=this.song.url;
 this.play();
-this.st=-(this.currentIndex * 320)+'px'
+
+  }
+  toggleFavorite(evt:Event):void{
+const target=evt.currentTarget as HTMLElement;
+const {songId}=target.dataset;
+const singleSong=this.songList.find((songItem)=> String(songItem.id) == String(songId));
+if(singleSong){
+  singleSong.favorite = !singleSong.favorite;
+}
 
   }
 
