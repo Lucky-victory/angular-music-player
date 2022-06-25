@@ -1,26 +1,21 @@
-import { Component, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { Utils } from 'src/helpers/util';
 import { AppService } from '../app.service';
-import { IPlayer, ISongList, RepeatState } from './player.type';
-@ViewChild('playerContainer')
+import { ISongList, RepeatState } from './player.type';
+
+// @ViewChild('playerContainer')
 @Component({
   selector: 'app-player',
   templateUrl: './player.component.html',
   styleUrls: ['./player.component.css'],
 })
-export class PlayerComponent implements IPlayer {
+export class PlayerComponent implements OnInit{
   title = 'ng-music-player';
 
   songList: ISongList[] = [];
   isPlaying: boolean = false;
-  song: ISongList = {
-    artist: '',
-    title: '',
-    url: '',
-    cover: '',
-    id: '',
-    favorite: false,
-  };
+  song!: ISongList;
+  songListImages!: ISongList['cover'][];
   currentIndex: number = 0;
   isRepeatAll: boolean = false;
   isShuffle: boolean = false;
@@ -32,11 +27,6 @@ export class PlayerComponent implements IPlayer {
   timePlayed!: string;
   private audio: HTMLAudioElement = new Audio();
   constructor(private service: AppService) {
-    this.service.getSongs().subscribe((response) => {
-      this.songList = response;
-      this.song = this.songList[this.currentIndex];
-      this.audio.src = this.song.url;
-    });
 
     this.audio.addEventListener('ended', () => {
       this.onEnded();
@@ -46,6 +36,14 @@ export class PlayerComponent implements IPlayer {
     });
     this.audio.addEventListener('timeupdate', () => {
       this.timeUpdate();
+    });
+  }
+  ngOnInit() {
+        this.service.getSongs().subscribe((response) => {
+      this.songList = response;
+      this.song = this.songList[this.currentIndex];
+      this.audio.src = this.song?.url;
+      this.songListImages = this.songList.map((song) => song.cover);
     });
   }
   minimizePlayer() {}

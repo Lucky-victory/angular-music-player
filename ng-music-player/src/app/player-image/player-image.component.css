@@ -1,0 +1,28 @@
+.images-inner-container{
+display: flex;
+
+
+}
+.image-wrapper{
+    flex-shrink: 0;
+    max-width: 350px;
+    max-height: 350px;
+    min-width: 300px;
+    min-height: 300px;
+    width: 90%;
+    height: 70%;
+    border-radius: 1em;
+    overflow: hidden;
+    margin: 1em auto 2em;
+    margin-right: 1em;
+    position: relative;
+ }
+ .image-wrapper:last-child{
+   margin-right: 0;
+ }
+ .image{
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    position: absolute;
+ }

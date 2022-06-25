@@ -2,27 +2,24 @@
 
 <div class="container">
   <div class="header">
-    <button class="btn back-btn">
-      <a routerLink="/" class="material-icons"> expand_more</a>
+    <button class="btn back-btn material-icons"> expand_more
     </button>
     <button class="btn material-icons playlist-btn" (click)="showPlayList()">
       queue_music
     </button>
   </div>
-  <div class="image-wrapper">
-    <img src="{{ song.cover }}" alt="" class="image" />
-  </div>
+  <app-player-image [songImages]="songListImages"></app-player-image>
   <div class="title-container">
     <div class="title-wrapper">
-      <h2 class="title">{{ song.title }}</h2>
-      <span class="artist">{{ song.artist }}</span>
+      <h2 class="title">{{ song?.title }}</h2>
+      <span class="artist">{{ song?.artist }}</span>
     </div>
     <button
       class="fav-btn material-icons"
-      attr.data-song-id="{{ song.id }}"
+      attr.data-song-id="{{ song?.id }}"
       (click)="toggleFavorite($event)"
     >
-      {{ song.favorite ? "favorite" : "favorite_border" }}
+      {{ song?.favorite ? "favorite" : "favorite_border" }}
     </button>
   </div>
   <div class="progress-wrapper">
@@ -70,4 +67,4 @@
     </button>
   </div>
 </div>
-<router-outlet></router-outlet>
+

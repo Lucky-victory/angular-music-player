@@ -5,14 +5,7 @@ import { PlayerComponent } from './player/player.component';
 
 const routes: Routes = [
   
-  {
-    path:'',
-    component:HomeComponent
-  },
-  {
-    path:'player',
-    component:PlayerComponent
-  }
+
 ];
 
 @NgModule({
