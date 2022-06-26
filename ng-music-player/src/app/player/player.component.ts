@@ -1,6 +1,7 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
 import { Utils } from 'src/helpers/util';
 import { AppService } from '../app.service';
+import { PlayerImageComponent } from '../player-image/player-image.component';
 import { ISongList, RepeatState } from './player.type';
 
 // @ViewChild('playerContainer')
@@ -9,7 +10,7 @@ import { ISongList, RepeatState } from './player.type';
   templateUrl: './player.component.html',
   styleUrls: ['./player.component.css'],
 })
-export class PlayerComponent implements OnInit{
+export class PlayerComponent implements OnInit,AfterViewInit{
   title = 'ng-music-player';
 
   songList: ISongList[] = [];
@@ -25,6 +26,7 @@ export class PlayerComponent implements OnInit{
 
   totalDuration!: string;
   timePlayed!: string;
+  @ViewChild(PlayerImageComponent) playerImageComp!: PlayerImageComponent;
   private audio: HTMLAudioElement = new Audio();
   constructor(private service: AppService) {
 
@@ -44,7 +46,12 @@ export class PlayerComponent implements OnInit{
       this.song = this.songList[this.currentIndex];
       this.audio.src = this.song?.url;
       this.songListImages = this.songList.map((song) => song.cover);
-    });
+        });
+    
+  }
+  ngAfterViewInit() {
+    this.playerImageComp.setPositionByIndex();
+    this.playerImageComp.setSliderPosition();
   }
   minimizePlayer() {}
   showPlayList() {}
@@ -53,6 +60,14 @@ export class PlayerComponent implements OnInit{
       this.next();
     } else {
       this.pause();
+    }
+  }
+  selectSongBySlide(type:string) {
+    if (type == 'next') {
+      this.next();
+    }
+    else{
+this.previous()
     }
   }
   seek(event: MouseEvent | TouchEvent) {
@@ -119,18 +134,26 @@ export class PlayerComponent implements OnInit{
     if (this.currentIndex > this.songList.length - 1) {
       this.currentIndex = 0;
     }
+    this.playerImageComp.setPositionByIndex();
     this.song = this.songList[this.currentIndex];
     this.audio.src = this.song.url;
-    this.play();
+    if (this.isPlaying) {
+      
+      this.play();
+    }
   }
   previous() {
     this.currentIndex--;
     if (this.currentIndex < 0) {
       this.currentIndex = this.songList.length - 1;
     }
+     this.playerImageComp.setPositionByIndex();
     this.song = this.songList[this.currentIndex];
     this.audio.src = this.song.url;
-    this.play();
+   if (this.isPlaying) {
+      
+      this.play();
+    }
   }
   toggleFavorite(evt: Event): void {
     const target = evt.currentTarget as HTMLElement;
@@ -142,4 +165,5 @@ export class PlayerComponent implements OnInit{
       singleSong.favorite = !singleSong.favorite;
     }
   }
+  
 }

@@ -8,18 +8,18 @@
       queue_music
     </button>
   </div>
-  <app-player-image [songImages]="songListImages"></app-player-image>
+  <app-player-image [songImages]="songListImages" [currentIndex]="currentIndex" (onSlide)="selectSongBySlide($event)"  ></app-player-image>
   <div class="title-container">
     <div class="title-wrapper">
-      <h2 class="title">{{ song?.title }}</h2>
-      <span class="artist">{{ song?.artist }}</span>
+      <h2 class="title">{{ song.title }}</h2>
+      <span class="artist">{{ song.artist }}</span>
     </div>
     <button
       class="fav-btn material-icons"
       attr.data-song-id="{{ song?.id }}"
       (click)="toggleFavorite($event)"
     >
-      {{ song?.favorite ? "favorite" : "favorite_border" }}
+      {{ song.favorite ? "favorite" : "favorite_border" }}
     </button>
   </div>
   <div class="progress-wrapper">
