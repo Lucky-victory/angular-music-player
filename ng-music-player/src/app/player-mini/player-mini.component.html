@@ -3,21 +3,21 @@
     <div class="mini-player-inner-container">
 
         <div class="mini-player-image-wrapper">
-            <img src="" alt="" class="mini-player-image">
+            <img src="{{currentSong.cover}}" alt="" class="mini-player-image">
         </div>
         <div class="mini-player-details">
-            <span class="mini-player-details-title">
+            <h2 class="mini-player-details-title">
 {{currentSong.title}}
-        </span>
+            </h2>
         <span class="mini-player-details-artist">
 {{currentSong.artist}}
         </span>
     </div>
     <div class="mini-player-controls-wrapper">
-        <button class="mini-player-play-btn btn material-icons" title="{{ isPlaying ? 'pause' : 'play' }}">
+        <button (click)="playAndPause()" class="mini-player-play-btn btn material-icons" title="{{ isPlaying ? 'pause' : 'play' }}">
  {{ isPlaying ?  "pause":"play_arrow"  }}
         </button>
-        <button class="mini-player-next-btn btn material-icons">
+        <button (click)="nextSong()" class="mini-player-next-btn btn material-icons">
 skip_next
         </button>
     </div>

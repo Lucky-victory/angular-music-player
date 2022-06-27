@@ -11,8 +11,6 @@ import { ISongList, RepeatState } from './player.type';
   styleUrls: ['./player.component.css'],
 })
 export class PlayerComponent implements OnInit,AfterViewInit{
-  title = 'ng-music-player';
-
   songList: ISongList[] = [];
   isPlaying: boolean = false;
   currentSong!: ISongList;
@@ -51,7 +49,7 @@ export class PlayerComponent implements OnInit,AfterViewInit{
   }
   ngAfterViewInit() {
     this.playerImageComp.setPositionByIndex();
-    this.playerImageComp.setSliderPosition();
+    // this.playerImageComp.setSliderPosition();
   }
   minimizePlayer() {}
   showPlayList() {}

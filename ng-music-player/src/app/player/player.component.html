@@ -66,6 +66,6 @@
       {{ repeatIcon }}
     </button>
   </div>
-  <app-player-mini [currentSong]="currentSong" [isPlaying]="isPlaying"></app-player-mini>
+  <app-player-mini [currentSong]="currentSong" [isPlaying]="isPlaying" (onMiniPlayAndPause)="playAndPause()" (onMiniNext)="next()"></app-player-mini>
 </div>
 
