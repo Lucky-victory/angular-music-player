@@ -12,14 +12,19 @@ export class PlayerImageComponent implements OnInit,OnDestroy,AfterViewInit {
   @Input() songImages!: ISongList['cover'][];
   private gesture!: Gesture;
   private isHeld: boolean = false;
+  isGrabbing: boolean = false;
   @Input() currentIndex: number=0;
   currentTranslate: number = 0;
   @Output() onSlide: EventEmitter<string> = new EventEmitter<string>();
+  @ViewChild('playerImagesContainer') playerImagesContainer!: ElementRef;
   @ViewChild('playerImageWrapper') playerImageWrapper!: ElementRef;
+  
   @ViewChildren('playerImage', { read: ElementRef }) playerImage!: QueryList<ElementRef>;
   startPosition: number = 0;
   prevTranslate: number = 0;
+  animationID!: number;
   playerImagesArray!: Array<ElementRef>;
+  currentSlideElem!: HTMLElement;
   constructor(private gestureCtrl:GestureController) { }
 
   ngOnInit() {
@@ -32,7 +37,6 @@ export class PlayerImageComponent implements OnInit,OnDestroy,AfterViewInit {
   createGesture(): void{
     this.playerImagesArray = this.playerImage.toArray();
     for (let [index,playerImage] of this.playerImagesArray.entries()) {
-      playerImage.nativeElement.querySelector('img').addEventListener('dragstart', (evt: MouseEvent) => evt.preventDefault());
       
       this.gesture = this.gestureCtrl.create({
         threshold: 10,
@@ -41,7 +45,7 @@ export class PlayerImageComponent implements OnInit,OnDestroy,AfterViewInit {
         onEnd: (detail) => {
           this.isHeld = false;
           
-          this.onSlideEnd(detail);
+          this.onSlideEnd();
       },
         onStart: (detail) => {
           this.isHeld = true;
@@ -63,35 +67,50 @@ export class PlayerImageComponent implements OnInit,OnDestroy,AfterViewInit {
     }
     
   }
-  onSlideStart(detail:GestureDetail,index:number) {
+  onSlideStart(detail: GestureDetail, index: number) {
+    this.isGrabbing=true;
     this.currentIndex = index;
     this.startPosition = this.getPositionX(detail);
     this.setSliderPosition();
-    console.log(index);
+    this.animationID = requestAnimationFrame && requestAnimationFrame(() => {
+      this.animation();
+    })
+  
     
   }
-  onSlideEnd(detail: GestureDetail) {
+  onSlideEnd() {
     const movedBy: number = this.currentTranslate - this.prevTranslate;
-    
+    this.isGrabbing = false;
     
     if (movedBy < -150 && this.currentIndex < this.playerImagesArray.length - 1) {
       this.currentIndex += 1;
       this.onSlide.emit('next');
-      console.log('next');
+      
     }
     if (movedBy > 150 && this.currentIndex > 0) {
       this.currentIndex -= 1;
-      console.log('rev');
+    
       this.onSlide.emit('prev');
       
     }
     this.setPositionByIndex();
+    if (this.animationID) {
+      
+      cancelAnimationFrame(this.animationID);
+    }
   }
   ngOnDestroy():void {
     this.gesture.destroy();
   }
   setPositionByIndex() {
-    this.currentTranslate = this.currentIndex * -300;
+    const playerImagesContainer = (this.playerImagesContainer.nativeElement as HTMLDivElement);
+    console.log({
+      off: playerImagesContainer.offsetWidth,
+      cl: playerImagesContainer.clientWidth,
+      sc:playerImagesContainer.scrollWidth
+    });
+    
+    this.currentTranslate = this.currentIndex * - playerImagesContainer.offsetWidth;
     this.prevTranslate = this.currentTranslate;
     this.setSliderPosition();
   }
@@ -100,7 +119,13 @@ export class PlayerImageComponent implements OnInit,OnDestroy,AfterViewInit {
   }
   setSliderPosition() {
     (this.playerImageWrapper.nativeElement as HTMLDivElement).style.transform = `translateX(${this.currentTranslate}px)`;
-    (this.playerImageWrapper.nativeElement as HTMLDivElement).style.transition = '0.5s ease-in-out';
+
     
+  }
+  animation() {
+    this.setSliderPosition();
+  }
+  preventGhost(event:MouseEvent) {
+    event.preventDefault();
   }
 }

@@ -11,15 +11,15 @@
   <app-player-image [songImages]="songListImages" [currentIndex]="currentIndex" (onSlide)="selectSongBySlide($event)"  ></app-player-image>
   <div class="title-container">
     <div class="title-wrapper">
-      <h2 class="title">{{ song.title }}</h2>
-      <span class="artist">{{ song.artist }}</span>
+      <h2 class="title">{{  currentSong.title }}</h2>
+      <span class="artist">{{  currentSong.artist }}</span>
     </div>
     <button
       class="fav-btn material-icons"
-      attr.data-song-id="{{ song?.id }}"
+      attr.data-song-id="{{  currentSong?.id }}"
       (click)="toggleFavorite($event)"
     >
-      {{ song.favorite ? "favorite" : "favorite_border" }}
+      {{ currentSong.favorite ? "favorite" : "favorite_border" }}
     </button>
   </div>
   <div class="progress-wrapper">
@@ -50,7 +50,7 @@
       (click)="playAndPause()"
       title="{{ isPlaying ? 'pause' : 'play' }}"
     >
-      {{ !isPlaying ? "play_arrow" : "pause" }}
+      {{ isPlaying ? "pause":"play_arrow"  }}
     </button>
 
     <button class="control-btn material-icons" (click)="next()" title="next">
@@ -66,5 +66,6 @@
       {{ repeatIcon }}
     </button>
   </div>
+  <app-player-mini [currentSong]="currentSong" [isPlaying]="isPlaying"></app-player-mini>
 </div>
 

@@ -1,9 +1,12 @@
-<div class="images-container">
-<div class="images-inner-container" #playerImageWrapper>
+<div class="images-outer-container">
+<div class="images-container" #playerImagesContainer>
+<div class="images-inner-container" #playerImageWrapper [ngClass]="{grabbing:isGrabbing}">
 
-    <div class="image-wrapper" #playerImage *ngFor="let image of songImages">
-        <img src="{{ image }}" alt="" class="image" />
+    <div class="image-wrapper" #playerImage *ngFor="let image of songImages;let index=index" [ngClass]="[index == currentIndex? 'active':'']">
+        <img src="{{ image }}" alt="" class="image" (dragstart)="preventGhost($event)"/>
     </div>
     
 </div>
+</div>
+
 </div>

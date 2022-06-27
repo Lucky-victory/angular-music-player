@@ -15,7 +15,7 @@ export class PlayerComponent implements OnInit,AfterViewInit{
 
   songList: ISongList[] = [];
   isPlaying: boolean = false;
-  song!: ISongList;
+  currentSong!: ISongList;
   songListImages!: ISongList['cover'][];
   currentIndex: number = 0;
   isRepeatAll: boolean = false;
@@ -43,8 +43,8 @@ export class PlayerComponent implements OnInit,AfterViewInit{
   ngOnInit() {
         this.service.getSongs().subscribe((response) => {
       this.songList = response;
-      this.song = this.songList[this.currentIndex];
-      this.audio.src = this.song?.url;
+      this.currentSong = this.songList[this.currentIndex];
+      this.audio.src = this.currentSong?.url;
       this.songListImages = this.songList.map((song) => song.cover);
         });
     
@@ -135,8 +135,8 @@ this.previous()
       this.currentIndex = 0;
     }
     this.playerImageComp.setPositionByIndex();
-    this.song = this.songList[this.currentIndex];
-    this.audio.src = this.song.url;
+    this.currentSong = this.songList[this.currentIndex];
+    this.audio.src = this.currentSong.url;
     if (this.isPlaying) {
       
       this.play();
@@ -148,8 +148,8 @@ this.previous()
       this.currentIndex = this.songList.length - 1;
     }
      this.playerImageComp.setPositionByIndex();
-    this.song = this.songList[this.currentIndex];
-    this.audio.src = this.song.url;
+    this.currentSong = this.songList[this.currentIndex];
+    this.audio.src = this.currentSong.url;
    if (this.isPlaying) {
       
       this.play();

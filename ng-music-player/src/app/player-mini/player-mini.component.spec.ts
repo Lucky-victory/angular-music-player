@@ -1,20 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { HomeComponent } from './home.component';
+import { PlayerMiniComponent } from './player-mini.component';
 
-describe('HomeComponent', () => {
-  let component: HomeComponent;
-  let fixture: ComponentFixture<HomeComponent>;
+describe('PlayerMiniComponent', () => {
+  let component: PlayerMiniComponent;
+  let fixture: ComponentFixture<PlayerMiniComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ HomeComponent ]
+      declarations: [ PlayerMiniComponent ]
     })
     .compileComponents();
-  });
 
-  beforeEach(() => {
-    fixture = TestBed.createComponent(HomeComponent);
+    fixture = TestBed.createComponent(PlayerMiniComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
