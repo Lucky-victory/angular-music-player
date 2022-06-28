@@ -6,13 +6,13 @@
    overflow: hidden;
 }
 .images-container{
-   max-width: 350px;
+   width: 350px;
     height: 350px;
     /* min-width: 320px;
     min-height: 320px; */
-     width: 100%;
+     max-width: 100%;
     margin: auto;
-    padding-left: 10px;
+    
     /* background-color: antiquewhite; */
     z-index:1;
     position: relative;
@@ -37,11 +37,11 @@ margin: auto;
 .image-wrapper{
     flex-shrink: 0;
  transform: scale(0.9);
-     width: 330px;
+     width: 350px;
     height: 330px;
     border-radius: 0.75em;
     overflow: hidden;
-    pointer-events: none;
+    /*pointer-events: none;*/
     /* margin: 1em auto 2em; */
     /* margin-right: 0.75em; */
     position: relative;
@@ -80,6 +80,7 @@ z-index:-1;
 
   @media all and (max-width:600px) {
 .image-wrapper{
-   width: 320px;
-}
+   width: 318px;
+
   }
+}

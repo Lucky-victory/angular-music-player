@@ -8,7 +8,7 @@
       queue_music
     </button>
   </div>
-  <app-player-image [songImages]="songListImages" [currentIndex]="currentIndex" (onSlide)="selectSongBySlide($event)"  ></app-player-image>
+  <app-player-image [songImages]="songListImages" [currentIndexSub]="currentIndexSubject" (onSlide)="selectSongBySlide($event)"  ></app-player-image>
   <div class="title-container">
     <div class="title-wrapper">
       <h2 class="title">{{  currentSong.title }}</h2>

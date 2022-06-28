@@ -1,4 +1,5 @@
 import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
+import { BehaviorSubject } from 'rxjs';
 import { Utils } from 'src/helpers/util';
 import { AppService } from '../app.service';
 import { PlayerImageComponent } from '../player-image/player-image.component';
@@ -16,6 +17,7 @@ export class PlayerComponent implements OnInit,AfterViewInit{
   currentSong!: ISongList;
   songListImages!: ISongList['cover'][];
   currentIndex: number = 0;
+  currentIndexSubject: BehaviorSubject<number> = new BehaviorSubject<number>(this.currentIndex);
   isRepeatAll: boolean = false;
   isShuffle: boolean = false;
   repeatIcon: string = 'repeat';
@@ -39,6 +41,7 @@ export class PlayerComponent implements OnInit,AfterViewInit{
     });
   }
   ngOnInit() {
+    
         this.service.getSongs().subscribe((response) => {
       this.songList = response;
       this.currentSong = this.songList[this.currentIndex];
@@ -48,6 +51,7 @@ export class PlayerComponent implements OnInit,AfterViewInit{
     
   }
   ngAfterViewInit() {
+    
     this.playerImageComp.setPositionByIndex();
     // this.playerImageComp.setSliderPosition();
   }
@@ -132,6 +136,7 @@ this.previous()
     if (this.currentIndex > this.songList.length - 1) {
       this.currentIndex = 0;
     }
+    this.currentIndexSubject.next(this.currentIndex);
     this.playerImageComp.setPositionByIndex();
     this.currentSong = this.songList[this.currentIndex];
     this.audio.src = this.currentSong.url;
@@ -145,7 +150,8 @@ this.previous()
     if (this.currentIndex < 0) {
       this.currentIndex = this.songList.length - 1;
     }
-     this.playerImageComp.setPositionByIndex();
+    this.currentIndexSubject.next(this.currentIndex);
+    this.playerImageComp.setPositionByIndex();
     this.currentSong = this.songList[this.currentIndex];
     this.audio.src = this.currentSong.url;
    if (this.isPlaying) {

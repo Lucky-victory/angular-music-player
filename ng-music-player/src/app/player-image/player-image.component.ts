@@ -1,6 +1,7 @@
 
 import { Component,OnInit, Input, OnDestroy, ElementRef, ViewChildren, QueryList, AfterViewInit, ViewChild, Output, EventEmitter } from '@angular/core';
 import { Gesture, GestureController,GestureDetail } from '@ionic/angular';
+import { BehaviorSubject } from 'rxjs';
 import { ISongList } from '../player/player.type';
 
 @Component({
@@ -14,6 +15,7 @@ export class PlayerImageComponent implements OnInit,OnDestroy,AfterViewInit {
   private isHeld: boolean = false;
   isGrabbing: boolean = false;
   @Input() currentIndex: number=0;
+  @Input() currentIndexSub!:BehaviorSubject<number>;
   currentTranslate: number = 0;
   @Output() onSlide: EventEmitter<string> = new EventEmitter<string>();
   @ViewChild('playerImagesContainer') playerImagesContainer!: ElementRef;
@@ -28,9 +30,13 @@ export class PlayerImageComponent implements OnInit,OnDestroy,AfterViewInit {
   constructor(private gestureCtrl:GestureController) { }
 
   ngOnInit() {
+    this.currentIndexSub.subscribe((index) => {
+      this.currentIndex = index;
+  })
   }
   ngAfterViewInit() {
     this.createGesture();
+    
     this.setPositionByIndex();
     this.setSliderPosition();
   }
@@ -110,7 +116,7 @@ export class PlayerImageComponent implements OnInit,OnDestroy,AfterViewInit {
       sc:playerImagesContainer.scrollWidth
     });
     
-    this.currentTranslate = this.currentIndex * - playerImagesContainer.offsetWidth;
+    this.currentTranslate = this.currentIndex * - (playerImagesContainer.clientWidth );
     this.prevTranslate = this.currentTranslate;
     this.setSliderPosition();
   }
