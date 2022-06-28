@@ -5,8 +5,8 @@
     bottom:0;
     left: 0;
     background: #191a1a;
-    box-shadow: 2px 5px 10px #032;
-    border-radius:1em 1em 0 0; 
+   box-shadow: 2px 5px 10px #333;
+    border-radius:0.5rem; 
     padding: 1em;
     color: #fff;
 }
@@ -34,7 +34,7 @@
      text-align: left;
     display: block;
     text-transform: capitalize;
-        flex:1;
+        flex-shrink:0;
         
         font-size: 1.2em;
 }
@@ -55,3 +55,38 @@
 .mini-player-controls-wrapper .mini-player-play-btn{
     margin-right: 0.5em;
 }
+.mini-player-controls-wrapper{
+    margin-right: 1em;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    flex:1;
+}
+.mini-player-controls-wrapper .mini-player-play-btn{
+    margin-right: 0.5em;
+}
+.expand-btn{
+    position: absolute;
+    top:0.5rem;
+    left: 0.5rem;
+    
+}
+
+.progress{
+    width: 100%;
+    flex:1;
+    height: 5px;
+    border-radius: 30px;
+    background: transparent;
+    position: absolute;
+ background: #545356;
+ top:0;
+ left: 0;
+ }
+ .progress-fill{
+    position: relative;
+    height: 100%;
+    width: 0%;
+    border-radius: inherit;
+    background: #ecf16c;
+ }

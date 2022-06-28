@@ -9,7 +9,9 @@ import { ISongList } from '../player/player.type';
 export class PlayerMiniComponent implements OnInit {
   @Input() currentSong!: ISongList;
   @Input() isPlaying!: boolean;
+  @Input() progressPercent!: string;
   @Output() onMiniPlayAndPause: EventEmitter<string> = new EventEmitter<string>();
+  @Output() onExpand: EventEmitter<boolean> = new EventEmitter<boolean>();
   @Output() onMiniNext: EventEmitter<string> = new EventEmitter<string>();
   constructor() { }
 
@@ -25,5 +27,8 @@ export class PlayerMiniComponent implements OnInit {
   }
   nextSong() {
     this.onMiniNext.emit();
+  }
+  expandPlayer() {
+    this.onExpand.emit(false);
   }
 }

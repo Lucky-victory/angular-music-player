@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
 import { Utils } from 'src/helpers/util';
 import { AppService } from '../app.service';
@@ -23,10 +23,11 @@ export class PlayerComponent implements OnInit,AfterViewInit{
   repeatIcon: string = 'repeat';
   progressPercent!: string;
   repeatState: RepeatState = 'repeat off';
-
+  isMinimized: boolean = false;
   totalDuration!: string;
   timePlayed!: string;
   @ViewChild(PlayerImageComponent) playerImageComp!: PlayerImageComponent;
+  @ViewChild('progressBar') progressBar!: ElementRef;
   private audio: HTMLAudioElement = new Audio();
   constructor(private service: AppService) {
 
@@ -42,8 +43,8 @@ export class PlayerComponent implements OnInit,AfterViewInit{
   }
   ngOnInit() {
     
-        this.service.getSongs().subscribe((response) => {
-      this.songList = response;
+        this.service.getSongs().subscribe((songs) => {
+      this.songList = songs;
       this.currentSong = this.songList[this.currentIndex];
       this.audio.src = this.currentSong?.url;
       this.songListImages = this.songList.map((song) => song.cover);
@@ -55,7 +56,9 @@ export class PlayerComponent implements OnInit,AfterViewInit{
     this.playerImageComp.setPositionByIndex();
     // this.playerImageComp.setSliderPosition();
   }
-  minimizePlayer() {}
+  minimizePlayer() {
+    this.isMinimized = !this.isMinimized;
+  }
   showPlayList() {}
   onEnded() {
     if (this.isRepeatAll) {
@@ -72,14 +75,12 @@ export class PlayerComponent implements OnInit,AfterViewInit{
 this.previous()
     }
   }
-  seek(event: MouseEvent | TouchEvent) {
-    const target = event.currentTarget as HTMLElement;
-    const { left: progressBarLeftOffset } = target.getBoundingClientRect();
+  seek(event: (MouseEvent | TouchEvent)) {
+    const target = this.progressBar.nativeElement as HTMLElement;
     const { clientWidth } = target;
-    const clientX: number = event.type.includes('mouse')
-      ? (event as MouseEvent).clientX
-      : (event as TouchEvent).changedTouches[0].clientX;
-    // const offsetX:number=(clientX - progressBarLeftOffset);
+    
+    const clientX: number = (event as MouseEvent).pageX
+    
     const { duration } = this.audio;
     const seekingPoint: number = (clientX / clientWidth) * duration;
 

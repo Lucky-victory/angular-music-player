@@ -16,6 +16,11 @@
  .muted{
     color: #696a6b!important;
  }
+ .main-container{
+   position: relative;
+   width: 100%;
+   max-width: 500px;
+ }
  .container{
   padding: 1.5em;
   max-width: 500px;
@@ -27,6 +32,9 @@
   position: relative;
   border-radius: 1rem;
   overflow: hidden;
+ }
+ .container.minimized{
+   display: none;
  }
  .container::before{
     position: absolute;

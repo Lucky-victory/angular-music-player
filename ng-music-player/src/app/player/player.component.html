@@ -1,13 +1,16 @@
 <style></style>
+<main class="main-container">
 
-<div class="container">
-  <div class="header">
-    <button class="btn back-btn material-icons"> expand_more
+  <div class="container" [ngClass]="{minimized:isMinimized}">
+    <app-player-list [songList]="songList"></app-player-list>
+    <div class="header">
+    <button class="btn back-btn material-icons" (click)="minimizePlayer()"> expand_more
     </button>
     <button class="btn material-icons playlist-btn" (click)="showPlayList()">
       queue_music
     </button>
   </div>
+
   <app-player-image [songImages]="songListImages" [currentIndexSub]="currentIndexSubject" (onSlide)="selectSongBySlide($event)"  ></app-player-image>
   <div class="title-container">
     <div class="title-wrapper">
@@ -66,6 +69,8 @@
       {{ repeatIcon }}
     </button>
   </div>
-  <app-player-mini [currentSong]="currentSong" [isPlaying]="isPlaying" (onMiniPlayAndPause)="playAndPause()" (onMiniNext)="next()"></app-player-mini>
 </div>
+<app-player-mini [hidden]="!isMinimized" [currentSong]="currentSong" [isPlaying]="isPlaying" (onMiniPlayAndPause)="playAndPause()" (onMiniNext)="next()" [progressPercent]="progressPercent" (onExpand)="isMinimized=$event"></app-player-mini>
 
+
+  </main>

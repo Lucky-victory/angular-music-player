@@ -1,1 +1,13 @@
 <p>player-list works!</p>
+<div class="playlist-container">
+    <div class="playlist-inner-container">
+        <ul class="playlist">
+            <li class="playlist-item" *ngFor="let song of songList">
+                <div class="playlist-image-wrapper"><img src="{{song.cover}}" alt="" class="playlist-image"></div>
+                <div class="playlist-item-details">
+
+                </div>
+            </li>
+        </ul>
+    </div>
+</div>

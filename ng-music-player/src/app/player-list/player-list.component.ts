@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit,Input } from '@angular/core';
+import { ISongList } from '../player/player.type';
 
 @Component({
   selector: 'app-player-list',
@@ -6,10 +7,12 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./player-list.component.css']
 })
 export class PlayerListComponent implements OnInit {
+  @Input() songList: ISongList[] = [];
 
   constructor() { }
 
   ngOnInit(): void {
+    
   }
 
 }
