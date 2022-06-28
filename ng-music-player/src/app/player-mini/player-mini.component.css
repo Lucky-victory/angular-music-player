@@ -7,19 +7,22 @@
     background: #191a1a;
    box-shadow: 2px 5px 10px #333;
     border-radius:0.5rem; 
-    padding: 1em;
+    padding: 1rem;
     color: #fff;
+    overflow: hidden;
 }
 .mini-player-inner-container{
     display: flex;
     align-items: center;
+    padding-left: 1rem;
     
 }
 .mini-player-image-wrapper{
     width: 60px;
     height: 60px;
-    border-radius: 0.5em;
-    margin-right: 2em;
+    border-radius: 0.5rem;
+    margin-right: 1.5rem;
+    flex-shrink: 0;
 }
 .mini-player-image{
     max-width: 100%;
@@ -35,7 +38,7 @@
     display: block;
     text-transform: capitalize;
         flex-shrink:0;
-        
+        text-overflow:ellipsis;
         font-size: 1.2em;
 }
 .mini-player-details-title{
@@ -43,7 +46,9 @@
 }
 .mini-player-details-artist{
     font-size: 85%;
-    color: #b1b3af;
+    
+    color: #a4a4a4;
+
 }
 .mini-player-controls-wrapper{
     margin-right: 1em;
@@ -68,7 +73,7 @@
 .expand-btn{
     position: absolute;
     top:0.5rem;
-    left: 0.5rem;
+    left: 0.25rem;
     
 }
 

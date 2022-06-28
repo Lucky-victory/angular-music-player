@@ -1,11 +1,17 @@
-<p>player-list works!</p>
-<div class="playlist-container">
+
+<div class="playlist-container " [ngClass]="{show:canShowPlaylist}">
     <div class="playlist-inner-container">
+         <button class="btn material-icons playlist-btn" (click)="hidePlayList()">
+      queue_music
+    </button>
         <ul class="playlist">
-            <li class="playlist-item" *ngFor="let song of songList">
+            <li class="playlist-item {{currentIndex==index?'playing':''}}"  *ngFor="let song of songList;let index=index" (click)="setAsCurrent(index)">
                 <div class="playlist-image-wrapper"><img src="{{song.cover}}" alt="" class="playlist-image"></div>
                 <div class="playlist-item-details">
-
+<strong class="playlist-item-details-title">
+{{song.title}}
+</strong><br>
+<span class="playlist-item-details-artist">{{song.artist}}</span>
                 </div>
             </li>
         </ul>

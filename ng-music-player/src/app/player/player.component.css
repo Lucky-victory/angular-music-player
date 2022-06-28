@@ -59,7 +59,10 @@
  .back-btn{
     color: #191a1a;
  }
- 
+ .playlist-btn{
+   z-index:5;
+   position:relative;
+ }
  .title-container{
     display: flex;
     align-items: center;
@@ -73,7 +76,7 @@
     text-transform: capitalize;
  }
  .artist{
-    color: #b1b3af;
+    color: #a4a4a4;
  }
  .control-btns-wrapper{
     display: flex;

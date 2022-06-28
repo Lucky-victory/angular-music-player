@@ -2,7 +2,7 @@
 <main class="main-container">
 
   <div class="container" [ngClass]="{minimized:isMinimized}">
-    <app-player-list [songList]="songList"></app-player-list>
+    <app-player-list (onHidePlayList)="canShowPlaylist=$event" [canShowPlaylist]="canShowPlaylist" [songList]="songList" [currentIndex$]="currentIndexSubject" (onPlayListSelect)="playListSelect($event)"></app-player-list>
     <div class="header">
     <button class="btn back-btn material-icons" (click)="minimizePlayer()"> expand_more
     </button>
@@ -11,7 +11,7 @@
     </button>
   </div>
 
-  <app-player-image [songImages]="songListImages" [currentIndexSub]="currentIndexSubject" (onSlide)="selectSongBySlide($event)"  ></app-player-image>
+  <app-player-image  [songImages]="songListImages" [currentIndexSub]="currentIndexSubject" (onSlide)="selectSongBySlide($event)"  ></app-player-image>
   <div class="title-container">
     <div class="title-wrapper">
       <h2 class="title">{{  currentSong.title }}</h2>

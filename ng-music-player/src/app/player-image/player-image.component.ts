@@ -40,7 +40,7 @@ export class PlayerImageComponent implements OnInit,OnDestroy,AfterViewInit {
     this.setPositionByIndex();
     this.setSliderPosition();
   }
-  createGesture(): void{
+  private createGesture(): void{
     this.playerImagesArray = this.playerImage.toArray();
     for (let [index,playerImage] of this.playerImagesArray.entries()) {
       

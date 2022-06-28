@@ -24,6 +24,7 @@ export class PlayerComponent implements OnInit,AfterViewInit{
   progressPercent!: string;
   repeatState: RepeatState = 'repeat off';
   isMinimized: boolean = false;
+  canShowPlaylist: boolean = false;
   totalDuration!: string;
   timePlayed!: string;
   @ViewChild(PlayerImageComponent) playerImageComp!: PlayerImageComponent;
@@ -45,11 +46,15 @@ export class PlayerComponent implements OnInit,AfterViewInit{
     
         this.service.getSongs().subscribe((songs) => {
       this.songList = songs;
-      this.currentSong = this.songList[this.currentIndex];
-      this.audio.src = this.currentSong?.url;
+          this.setCurrentSong();
       this.songListImages = this.songList.map((song) => song.cover);
         });
     
+  }
+  setCurrentSong() {
+    
+      this.currentSong = this.songList[this.currentIndex];
+      this.audio.src = this.currentSong?.url;
   }
   ngAfterViewInit() {
     
@@ -59,7 +64,18 @@ export class PlayerComponent implements OnInit,AfterViewInit{
   minimizePlayer() {
     this.isMinimized = !this.isMinimized;
   }
-  showPlayList() {}
+  playListSelect(index: number) {
+    this.currentIndex = index;
+    this.currentIndexSubject.next(index);
+    this.setCurrentSong();
+    this.playerImageComp.setPositionByIndex();
+    if (this.isPlaying) {
+      this.play();
+}
+  }
+  showPlayList() {
+    this.canShowPlaylist = !this.canShowPlaylist;
+  }
   onEnded() {
     if (this.isRepeatAll) {
       this.next();

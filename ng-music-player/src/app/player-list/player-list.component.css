@@ -1,19 +1,47 @@
 .playlist-container{
     width: 100%;
     height: 100%;
-    background-color:#19191966;
-display: none;
+    background-color:#191a1a88;
 position: absolute;
 top:0;
 left: 0;
-z-index: 4;
+z-index: 3;
+color:#fff;
+transform:translateX(100%);
+    transition:transform 0.5s ease-out;
+    display: flex;
+    justify-content: flex-end;
 }
-
+.playlist-container.show{
+    transform:translateX(0);
+    transition:transform 0.5s ease-in;
+}
+.playlist-inner-container{
+    padding:1rem;
+    padding-top: 3rem;
+    background-color: #191a1a;
+    width: 100%;
+    max-width: 450px;
+    height: 100%;
+}
+.playlist-item{
+    display: flex;
+    border-radius:0.5rem;
+    background-color:#333;
+    border: 1px solid transparent;
+    margin-bottom: 0.5rem;
+}
+.playlist-item.playing{
+    border: 1px solid #666;
+}
 .playlist-image-wrapper{
     width: 60px;
     height: 60px;
     border-radius: 0.5em;
-    margin-right: 2em;
+    margin-right: 1.5em;
+}
+.playlist-item.playing .playlist-image{
+    opacity: 0.7;
 }
 .playlist-image{
     max-width: 100%;
@@ -22,4 +50,17 @@ z-index: 4;
     height: 100%;
     object-fit: cover;
 
+}
+.playlist-item-details{
+padding-top: 0.5rem;
+    font-size: 1rem;
+    text-transform: capitalize;
+}
+.playlist-item.playing .playlist-item-details-title{
+    color:#ecf16c;
+}
+.playlist-item-details-artist{
+    font-size: 85%;
+    color: #a4a4a4;
+    
 }
