@@ -2,14 +2,14 @@
 {"id":1,
     "title":"Unstoppable",
 "artist":"sia",
-"cover":"sia.jpg",
+"cover":"./images/sia.jpg",
 "url":"./songs/Sia_-_Unstoppable.mp3",
 "favorite":true
 },
 {"id":2,
     "title":"easy on me",
 "artist":"adele",
-"cover":"adele-.jpg",
+"cover":"./images/adele-.jpg",
 "url":"./songs/Adele_-_Easy_On_Me.mp3",
 "favorite":false
 
