@@ -1,9 +1,12 @@
 
 <div class="playlist-container " [ngClass]="{show:canShowPlaylist}">
     <div class="playlist-inner-container">
-         <button class="btn material-icons playlist-btn" (click)="hidePlayList()">
-      queue_music
-    </button>
+        <div class="btn-wrapper">
+
+            <button class="btn material-icons playlist-btn" (click)="hidePlayList()">
+                close
+            </button>
+        </div>
         <ul class="playlist">
             <li class="playlist-item {{currentIndex==index?'playing':''}}"  *ngFor="let song of songList;let index=index" (click)="setAsCurrent(index)">
                 <div class="playlist-image-wrapper"><img src="{{song.cover}}" alt="" class="playlist-image"></div>

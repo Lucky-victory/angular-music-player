@@ -113,10 +113,10 @@ export class PlayerImageComponent implements OnInit,OnDestroy,AfterViewInit {
     console.log({
       off: playerImagesContainer.offsetWidth,
       cl: playerImagesContainer.clientWidth,
-      sc:playerImagesContainer.scrollWidth
+      sw:playerImagesContainer.scrollWidth
     });
     
-    this.currentTranslate = this.currentIndex * - (playerImagesContainer.clientWidth );
+    this.currentTranslate = this.currentIndex * (-this.playerImagesContainer.nativeElement.clientWidth );
     this.prevTranslate = this.currentTranslate;
     this.setSliderPosition();
   }

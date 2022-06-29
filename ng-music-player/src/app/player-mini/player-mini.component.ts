@@ -6,17 +6,16 @@ import { ISongList } from '../player/player.type';
   templateUrl: './player-mini.component.html',
   styleUrls: ['./player-mini.component.css']
 })
-export class PlayerMiniComponent implements OnInit {
+export class PlayerMiniComponent{
   @Input() currentSong!: ISongList;
   @Input() isPlaying!: boolean;
+  @Input() isMinimized!: boolean;
   @Input() progressPercent!: string;
   @Output() onMiniPlayAndPause: EventEmitter<string> = new EventEmitter<string>();
   @Output() onExpand: EventEmitter<boolean> = new EventEmitter<boolean>();
   @Output() onMiniNext: EventEmitter<string> = new EventEmitter<string>();
   constructor() { }
 
-  ngOnInit(): void {
-  }
   playAndPause() {
     if (this.isPlaying) {
       

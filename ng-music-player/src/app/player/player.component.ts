@@ -95,7 +95,7 @@ this.previous()
     const target = this.progressBar.nativeElement as HTMLElement;
     const { clientWidth } = target;
     
-    const clientX: number = (event as MouseEvent).pageX
+    const clientX: number = (event as MouseEvent).clientX
     
     const { duration } = this.audio;
     const seekingPoint: number = (clientX / clientWidth) * duration;
@@ -155,8 +155,7 @@ this.previous()
     }
     this.currentIndexSubject.next(this.currentIndex);
     this.playerImageComp.setPositionByIndex();
-    this.currentSong = this.songList[this.currentIndex];
-    this.audio.src = this.currentSong.url;
+    this.setCurrentSong();
     if (this.isPlaying) {
       
       this.play();
@@ -169,8 +168,7 @@ this.previous()
     }
     this.currentIndexSubject.next(this.currentIndex);
     this.playerImageComp.setPositionByIndex();
-    this.currentSong = this.songList[this.currentIndex];
-    this.audio.src = this.currentSong.url;
+  this.setCurrentSong()
    if (this.isPlaying) {
       
       this.play();

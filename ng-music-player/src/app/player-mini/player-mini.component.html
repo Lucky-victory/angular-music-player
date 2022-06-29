@@ -1,5 +1,5 @@
 
-<div class="mini-player-container">
+<div class="mini-player-container" [ngClass]="{show:isMinimized}">
     <div class="progress">
       <div class="progress-fill" [style.width]="progressPercent"></div>
     </div>
