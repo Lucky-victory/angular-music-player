@@ -1,25 +1,52 @@
 [
 {"id":1,
-    "title":"no way home",
-"artist":"john mark",
-"cover":"https://images.pexels.com/photos/11012766/pexels-photo-11012766.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940",
-"url":"https://raw.githubusercontent.com/Lucky-victory/zplayer/master/songs/a-better-place-to-live.mp3",
+    "title":"Unstoppable",
+"artist":"sia",
+"cover":"sia.jpg",
+"url":"./songs/Sia_-_Unstoppable.mp3",
 "favorite":true
 },
 {"id":2,
-    "title":"i am here",
-"artist":"max hills",
-"cover":"https://images.pexels.com/photos/9358149/pexels-photo-9358149.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940",
-"url":"https://raw.githubusercontent.com/Lucky-victory/zplayer/master/songs/alone.mp3",
+    "title":"easy on me",
+"artist":"adele",
+"cover":"adele-.jpg",
+"url":"./songs/Adele_-_Easy_On_Me.mp3",
 "favorite":false
 
 },
 {"id":3,
-    "title":"we are here",
-"artist":"little pro",
-"cover":"https://images.pexels.com/photos/2787857/pexels-photo-2787857.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500",
-"url":"https://raw.githubusercontent.com/Lucky-victory/zplayer/master/songs/angels-like-you.mp3",
+    "title":"alone",
+"artist":"alan walker",
+"cover":"./images/alan_walker.jpg",
+"url":"./songs/alone.mp3",
 "favorite":true
-
+},
+{"id":4,
+    "title":"Roju",
+"artist":"chiké",
+"cover":"./images/chiké.jpeg",
+"url":"./songs/Chike_-_Roju.mp3",
+"favorite":true
+},
+{"id":5,
+    "title":"Before you wake up",
+"artist":"adekunle gold",
+"cover":"./images/Adekunle.jpg",
+"url":"./songs/Adekunle-Gold-%E2%80%93-Before-You-Wake-Up.mp3",
+"favorite":false
+},
+{"id":6,
+    "title":"when we were young",
+"artist":"adele",
+"cover":"./images/adele-.jpg",
+"url":"./songs/Adele_-_When_We_Were_Young.mp3",
+"favorite":false
+},
+{"id":7,
+    "title":"you belong to me",
+"artist":"taylor swift",
+"cover":"./images/taylor-swift.jpg",
+"url":"./songs/Taylor_Swift_-_You_Belong_With_Me.mp3",
+"favorite":true
 }
 ]
