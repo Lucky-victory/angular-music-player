@@ -1,3 +1,4 @@
+
 import { AfterViewInit, Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
 import { Utils } from 'src/helpers/util';
@@ -63,14 +64,29 @@ export class PlayerComponent implements OnInit,AfterViewInit{
   }
   minimizePlayer() {
     this.isMinimized = !this.isMinimized;
+  
+  }
+  expandPlayer(isMinimized:boolean) {
+    this.isMinimized = isMinimized;
+    setTimeout(()=>{
+
+      this.playerImageComp.setPositionByIndex();
+    },100)
   }
   playListSelect(index: number) {
     this.currentIndex = index;
     this.currentIndexSubject.next(index);
     this.setCurrentSong();
     this.playerImageComp.setPositionByIndex();
-    if (this.isPlaying) {
-      this.play();
+    this.delayPlay();
+  }
+  delayPlay() {
+        if (this.isPlaying) {
+      this.pause();
+      setTimeout(() => {
+        
+        this.play();
+      },10)
 }
   }
   showPlayList() {
@@ -83,7 +99,8 @@ export class PlayerComponent implements OnInit,AfterViewInit{
       this.pause();
     }
   }
-  selectSongBySlide(type:string) {
+  selectSongBySlide(type: string) {
+    this.isShuffle = false;
     if (type == 'next') {
       this.next();
     }
@@ -111,6 +128,7 @@ this.previous()
   loadMetadata() {
     const { duration } = this.audio;
     this.totalDuration = Utils.secondsToTime(duration);
+    this.timeUpdate();
   }
   repeat() {
     const isLoop: boolean = this.audio.loop;
@@ -131,6 +149,7 @@ this.previous()
   }
   shuffle() {
     this.isShuffle = !this.isShuffle;
+   
   }
 
   playAndPause() {
@@ -149,6 +168,10 @@ this.previous()
     this.audio.pause();
   }
   next() {
+     if (this.isShuffle) {
+       this.randomSong();
+       return
+    }
     this.currentIndex++;
     if (this.currentIndex > this.songList.length - 1) {
       this.currentIndex = 0;
@@ -156,12 +179,13 @@ this.previous()
     this.currentIndexSubject.next(this.currentIndex);
     this.playerImageComp.setPositionByIndex();
     this.setCurrentSong();
-    if (this.isPlaying) {
-      
-      this.play();
-    }
+    this.delayPlay();
   }
   previous() {
+      if (this.isShuffle) {
+       this.randomSong();
+       return
+    }
     this.currentIndex--;
     if (this.currentIndex < 0) {
       this.currentIndex = this.songList.length - 1;
@@ -169,10 +193,13 @@ this.previous()
     this.currentIndexSubject.next(this.currentIndex);
     this.playerImageComp.setPositionByIndex();
   this.setCurrentSong()
-   if (this.isPlaying) {
-      
-      this.play();
-    }
+    this.delayPlay();
+  }
+  randomSong() {
+    this.currentIndex = Utils.randomOrder(this.songList.length)[0];
+      this.currentIndexSubject.next(this.currentIndex);
+       this.setCurrentSong();
+       this.playerImageComp.setPositionByIndex();
   }
   toggleFavorite(evt: Event): void {
     const target = evt.currentTarget as HTMLElement;

@@ -78,9 +78,16 @@ z-index:-1;
     position: absolute;
  }
 
-  @media all and (max-width:600px) {
+  @media all and (max-width:360px) {
 .image-wrapper{
    width: 318px;
+
+  }
+}
+
+  @media all and (min-width:361px) and (max-width:400px) {
+.image-wrapper{
+   width: 333px;
 
   }
 }

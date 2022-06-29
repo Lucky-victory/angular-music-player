@@ -1,5 +1,6 @@
 export interface IUtils{
-secondsToTime:(seconds:number)=> string;
+    secondsToTime: (seconds: number) => string;
+    randomOrder:(length:number)=>Array<number>
 }
 
 export const Utils:IUtils={
@@ -14,5 +15,15 @@ const sec=Math.floor(seconds - hour * secondsInOneHour - minute  * 60);
 return (
     (hour > 0 ? [hour,minute,sec] : [minute,sec]).map(add0).join(':')
 )
+    },
+      randomOrder(length:number) {
+   function shuffle(arr:number[]) {
+      for (let i = arr.length - 1; i >= 0; i--) {
+         const r = Math.floor(Math.random() * (i + 1));
+           [arr[i], arr[r]] = [arr[r], arr[i]]
+      }
+      return arr;
+   }
+   return shuffle([...Array(length)].map((item,i)=>i))
 }
 }

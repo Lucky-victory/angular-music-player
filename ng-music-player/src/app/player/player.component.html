@@ -70,7 +70,7 @@
     </button>
   </div>
 </div>
-<app-player-mini [isMinimized]="isMinimized" [currentSong]="currentSong" [isPlaying]="isPlaying" (onMiniPlayAndPause)="playAndPause()" (onMiniNext)="next()" [progressPercent]="progressPercent" (onExpand)="isMinimized=$event"></app-player-mini>
+<app-player-mini [isMinimized]="isMinimized" [currentSong]="currentSong" [isPlaying]="isPlaying" (onMiniPlayAndPause)="playAndPause()" (onMiniNext)="next()" [progressPercent]="progressPercent" (onExpand)="expandPlayer($event)"></app-player-mini>
 
 
   </main>
