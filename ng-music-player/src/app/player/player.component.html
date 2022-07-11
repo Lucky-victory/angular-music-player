@@ -27,7 +27,7 @@
   </div>
   <div class="progress-wrapper">
     <span class="time-played">{{ timePlayed || "00:00" }}</span>
-    <div class="progress" #progressBar (click)="seek($event)">
+    <div class="progress" [ngClass]="{playing:isPlaying}" #progressBar (click)="seek($event)">
       <div class="progress-fill" [style.width]="progressPercent"></div>
     </div>
     <span class="total-duration">{{ totalDuration || "00:00" }}</span>

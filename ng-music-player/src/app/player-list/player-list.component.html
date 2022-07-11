@@ -7,15 +7,23 @@
                 close
             </button>
         </div>
-        <ul class="playlist">
-            <li class="playlist-item {{currentIndex==index?'playing':''}}"  *ngFor="let song of songList;let index=index" (click)="setAsCurrent(index)">
+        <ul class="playlist" cdkDropList (cdkDropListDropped)="drop($event)" >
+            <li cdkDrag class="playlist-item {{currentIndex==index?'playing':''}}" [cdkDragData]="song"  *ngFor="let song of songList;let index=index" (click)="setAsCurrent(index)">
+                
                 <div class="playlist-image-wrapper"><img src="{{song.cover}}" alt="" class="playlist-image"></div>
-                <div class="playlist-item-details">
-<strong class="playlist-item-details-title">
-{{song.title}}
-</strong><br>
-<span class="playlist-item-details-artist">{{song.artist}}</span>
-                </div>
+<div class="flex grow jc-btw">
+
+    <div class="playlist-item-details">
+        <strong class="playlist-item-details-title">
+            {{song.title}}
+        </strong><br>
+        <span class="playlist-item-details-artist">{{song.artist}}</span>
+    </div>
+    <button class="align-self-end btn drag-handle" cdkDragHandle><span class="material-icons">
+drag_indicator
+</span></button>
+</div>
+
             </li>
         </ul>
     </div>
