@@ -1,0 +1,31 @@
+
+<div class="mini-player-container" [ngClass]="{show:isMinimized}">
+    <div class="progress">
+      <div class="progress-fill" [style.width]="progressPercent"></div>
+    </div>
+    <div class="mini-player-inner-container">
+    
+        <button class="btn expand-btn material-icons" (click)="expandPlayer()"> expand_less
+    </button>
+
+        <div class="mini-player-image-wrapper">
+            <img src="{{currentSong.cover}}" alt="" class="mini-player-image">
+        </div>
+        <div class="mini-player-details">
+            <h2 class="mini-player-details-title">
+{{currentSong.title}}
+            </h2>
+        <span class="mini-player-details-artist">
+{{currentSong.artist}}
+        </span>
+    </div>
+    <div class="mini-player-controls-wrapper">
+        <button (click)="playAndPause()" class="mini-player-play-btn btn material-icons" title="{{ isPlaying ? 'pause' : 'play' }}">
+ {{ isPlaying ?  "pause":"play_arrow"  }}
+        </button>
+        <button (click)="nextSong()" class="mini-player-next-btn btn material-icons">
+skip_next
+        </button>
+    </div>
+    </div>
+</div>

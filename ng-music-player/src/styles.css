@@ -21,3 +21,10 @@ button,a{
 body{
    background: #191a1a;
 }
+.btn{
+    color: #fff;
+    border: none;
+    overflow: none;
+    background: transparent;
+ 
+ }

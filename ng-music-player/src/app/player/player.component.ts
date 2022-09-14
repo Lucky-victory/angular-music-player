@@ -1,42 +1,37 @@
-import { Component, ViewChild } from '@angular/core';
+
+import { AfterViewInit, Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { BehaviorSubject } from 'rxjs';
 import { Utils } from 'src/helpers/util';
 import { AppService } from '../app.service';
-import { IPlayer, ISongList, RepeatState } from './player.type';
-@ViewChild('playerContainer')
+import { PlayerImageComponent } from '../player-image/player-image.component';
+import { ISongList, RepeatState } from './player.type';
+
+// @ViewChild('playerContainer')
 @Component({
   selector: 'app-player',
   templateUrl: './player.component.html',
   styleUrls: ['./player.component.css'],
 })
-export class PlayerComponent implements IPlayer {
-  title = 'ng-music-player';
-
+export class PlayerComponent implements OnInit,AfterViewInit{
   songList: ISongList[] = [];
   isPlaying: boolean = false;
-  song: ISongList = {
-    artist: '',
-    title: '',
-    url: '',
-    cover: '',
-    id: '',
-    favorite: false,
-  };
+  currentSong!: ISongList;
+  songListImages!: ISongList['cover'][];
   currentIndex: number = 0;
+  currentIndexSubject: BehaviorSubject<number> = new BehaviorSubject<number>(this.currentIndex);
   isRepeatAll: boolean = false;
   isShuffle: boolean = false;
   repeatIcon: string = 'repeat';
   progressPercent!: string;
   repeatState: RepeatState = 'repeat off';
-
+  isMinimized: boolean = false;
+  canShowPlaylist: boolean = false;
   totalDuration!: string;
   timePlayed!: string;
+  @ViewChild(PlayerImageComponent) playerImageComp!: PlayerImageComponent;
+  @ViewChild('progressBar') progressBar!: ElementRef;
   private audio: HTMLAudioElement = new Audio();
   constructor(private service: AppService) {
-    this.service.getSongs().subscribe((response) => {
-      this.songList = response;
-      this.song = this.songList[this.currentIndex];
-      this.audio.src = this.song.url;
-    });
 
     this.audio.addEventListener('ended', () => {
       this.onEnded();
@@ -48,8 +43,55 @@ export class PlayerComponent implements IPlayer {
       this.timeUpdate();
     });
   }
-  minimizePlayer() {}
-  showPlayList() {}
+  ngOnInit() {
+    
+        this.service.getSongs().subscribe((songs) => {
+      this.songList = songs;
+          this.setCurrentSong();
+      this.songListImages = this.songList.map((song) => song.cover);
+        });
+    
+  }
+  setCurrentSong() {
+    
+      this.currentSong = this.songList[this.currentIndex];
+      this.audio.src = this.currentSong?.url;
+  }
+  ngAfterViewInit() {
+    
+    this.playerImageComp.setPositionByIndex();
+    // this.playerImageComp.setSliderPosition();
+  }
+  minimizePlayer() {
+    this.isMinimized = !this.isMinimized;
+  
+  }
+  expandPlayer(isMinimized:boolean) {
+    this.isMinimized = isMinimized;
+    setTimeout(()=>{
+
+      this.playerImageComp.setPositionByIndex();
+    },100)
+  }
+  playListSelect(index: number) {
+    this.currentIndex = index;
+    this.currentIndexSubject.next(index);
+    this.setCurrentSong();
+    this.playerImageComp.setPositionByIndex();
+    this.delayPlay();
+  }
+  delayPlay() {
+        if (this.isPlaying) {
+      this.pause();
+      setTimeout(() => {
+        
+        this.play();
+      },10)
+}
+  }
+  showPlayList() {
+    this.canShowPlaylist = !this.canShowPlaylist;
+  }
   onEnded() {
     if (this.isRepeatAll) {
       this.next();
@@ -57,14 +99,21 @@ export class PlayerComponent implements IPlayer {
       this.pause();
     }
   }
-  seek(event: MouseEvent | TouchEvent) {
-    const target = event.currentTarget as HTMLElement;
-    const { left: progressBarLeftOffset } = target.getBoundingClientRect();
+  selectSongBySlide(type: string) {
+    this.isShuffle = false;
+    if (type == 'next') {
+      this.next();
+    }
+    else{
+this.previous()
+    }
+  }
+  seek(event: (MouseEvent | TouchEvent)) {
+    const target = this.progressBar.nativeElement as HTMLElement;
     const { clientWidth } = target;
-    const clientX: number = event.type.includes('mouse')
-      ? (event as MouseEvent).clientX
-      : (event as TouchEvent).changedTouches[0].clientX;
-    // const offsetX:number=(clientX - progressBarLeftOffset);
+    
+    const clientX: number = (event as MouseEvent).clientX
+    
     const { duration } = this.audio;
     const seekingPoint: number = (clientX / clientWidth) * duration;
 
@@ -79,6 +128,7 @@ export class PlayerComponent implements IPlayer {
   loadMetadata() {
     const { duration } = this.audio;
     this.totalDuration = Utils.secondsToTime(duration);
+    this.timeUpdate();
   }
   repeat() {
     const isLoop: boolean = this.audio.loop;
@@ -99,6 +149,7 @@ export class PlayerComponent implements IPlayer {
   }
   shuffle() {
     this.isShuffle = !this.isShuffle;
+   
   }
 
   playAndPause() {
@@ -117,22 +168,38 @@ export class PlayerComponent implements IPlayer {
     this.audio.pause();
   }
   next() {
+     if (this.isShuffle) {
+       this.randomSong();
+       return
+    }
     this.currentIndex++;
     if (this.currentIndex > this.songList.length - 1) {
       this.currentIndex = 0;
     }
-    this.song = this.songList[this.currentIndex];
-    this.audio.src = this.song.url;
-    this.play();
+    this.currentIndexSubject.next(this.currentIndex);
+    this.playerImageComp.setPositionByIndex();
+    this.setCurrentSong();
+    this.delayPlay();
   }
   previous() {
+      if (this.isShuffle) {
+       this.randomSong();
+       return
+    }
     this.currentIndex--;
     if (this.currentIndex < 0) {
       this.currentIndex = this.songList.length - 1;
     }
-    this.song = this.songList[this.currentIndex];
-    this.audio.src = this.song.url;
-    this.play();
+    this.currentIndexSubject.next(this.currentIndex);
+    this.playerImageComp.setPositionByIndex();
+  this.setCurrentSong()
+    this.delayPlay();
+  }
+  randomSong() {
+    this.currentIndex = Utils.randomOrder(this.songList.length)[0];
+      this.currentIndexSubject.next(this.currentIndex);
+       this.setCurrentSong();
+       this.playerImageComp.setPositionByIndex();
   }
   toggleFavorite(evt: Event): void {
     const target = evt.currentTarget as HTMLElement;
@@ -144,4 +211,5 @@ export class PlayerComponent implements IPlayer {
       singleSong.favorite = !singleSong.favorite;
     }
   }
+  
 }
