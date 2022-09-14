@@ -1,0 +1,73 @@
+<style></style>
+
+<div class="container">
+  <div class="header">
+    <button class="btn back-btn">
+      <a routerLink="/" class="material-icons"> expand_more</a>
+    </button>
+    <button class="btn material-icons playlist-btn" (click)="showPlayList()">
+      queue_music
+    </button>
+  </div>
+  <div class="image-wrapper">
+    <img src="{{ song.cover }}" alt="" class="image" />
+  </div>
+  <div class="title-container">
+    <div class="title-wrapper">
+      <h2 class="title">{{ song.title }}</h2>
+      <span class="artist">{{ song.artist }}</span>
+    </div>
+    <button
+      class="fav-btn material-icons"
+      attr.data-song-id="{{ song.id }}"
+      (click)="toggleFavorite($event)"
+    >
+      {{ song.favorite ? "favorite" : "favorite_border" }}
+    </button>
+  </div>
+  <div class="progress-wrapper">
+    <span class="time-played">{{ timePlayed || "00:00" }}</span>
+    <div class="progress" #progressBar (click)="seek($event)">
+      <div class="progress-fill" [style.width]="progressPercent"></div>
+    </div>
+    <span class="total-duration">{{ totalDuration || "00:00" }}</span>
+  </div>
+  <div class="control-btns-wrapper">
+    <button
+      class="control-btn material-icons {{ !isShuffle ? 'muted' : '' }}"
+      title="{{ isShuffle ? 'shuffle on' : 'shuffle off' }}"
+      (click)="shuffle()"
+    >
+      shuffle
+    </button>
+
+    <button
+      class="control-btn material-icons"
+      (click)="previous()"
+      title="previous"
+    >
+      skip_previous
+    </button>
+    <button
+      class="control-btn play-btn material-icons"
+      (click)="playAndPause()"
+      title="{{ isPlaying ? 'pause' : 'play' }}"
+    >
+      {{ !isPlaying ? "play_arrow" : "pause" }}
+    </button>
+
+    <button class="control-btn material-icons" (click)="next()" title="next">
+      skip_next
+    </button>
+    <button
+      class="control-btn material-icons {{
+        repeatState == 'repeat off' ? 'muted' : ''
+      }}"
+      title="{{ repeatState }}"
+      (click)="repeat()"
+    >
+      {{ repeatIcon }}
+    </button>
+  </div>
+</div>
+<router-outlet></router-outlet>
