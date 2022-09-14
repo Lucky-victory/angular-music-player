@@ -1,33 +1,33 @@
 <style></style>
+<main class="main-container">
 
-<div class="container">
-  <div class="header">
-    <button class="btn back-btn">
-      <a routerLink="/" class="material-icons"> expand_more</a>
+  <div class="container" [ngClass]="{minimized:isMinimized}">
+    <app-player-list (onHidePlayList)="canShowPlaylist=$event" [canShowPlaylist]="canShowPlaylist" [songList]="songList" [currentIndex$]="currentIndexSubject" (onPlayListSelect)="playListSelect($event)"></app-player-list>
+    <div class="header">
+    <button class="btn back-btn material-icons" (click)="minimizePlayer()"> expand_more
     </button>
     <button class="btn material-icons playlist-btn" (click)="showPlayList()">
       queue_music
     </button>
   </div>
-  <div class="image-wrapper">
-    <img src="{{ song.cover }}" alt="" class="image" />
-  </div>
+
+  <app-player-image  [songImages]="songListImages" [currentIndexSub]="currentIndexSubject" (onSlide)="selectSongBySlide($event)"  ></app-player-image>
   <div class="title-container">
     <div class="title-wrapper">
-      <h2 class="title">{{ song.title }}</h2>
-      <span class="artist">{{ song.artist }}</span>
+      <h2 class="title">{{  currentSong.title }}</h2>
+      <span class="artist">{{  currentSong.artist }}</span>
     </div>
     <button
       class="fav-btn material-icons"
-      attr.data-song-id="{{ song.id }}"
+      attr.data-song-id="{{  currentSong?.id }}"
       (click)="toggleFavorite($event)"
     >
-      {{ song.favorite ? "favorite" : "favorite_border" }}
+      {{ currentSong.favorite ? "favorite" : "favorite_border" }}
     </button>
   </div>
   <div class="progress-wrapper">
     <span class="time-played">{{ timePlayed || "00:00" }}</span>
-    <div class="progress" #progressBar (click)="seek($event)">
+    <div class="progress" [ngClass]="{playing:isPlaying}" #progressBar (click)="seek($event)">
       <div class="progress-fill" [style.width]="progressPercent"></div>
     </div>
     <span class="total-duration">{{ totalDuration || "00:00" }}</span>
@@ -53,7 +53,7 @@
       (click)="playAndPause()"
       title="{{ isPlaying ? 'pause' : 'play' }}"
     >
-      {{ !isPlaying ? "play_arrow" : "pause" }}
+      {{ isPlaying ? "pause":"play_arrow"  }}
     </button>
 
     <button class="control-btn material-icons" (click)="next()" title="next">
@@ -70,4 +70,7 @@
     </button>
   </div>
 </div>
-<router-outlet></router-outlet>
+<app-player-mini [isMinimized]="isMinimized" [currentSong]="currentSong" [isPlaying]="isPlaying" (onMiniPlayAndPause)="playAndPause()" (onMiniNext)="next()" [progressPercent]="progressPercent" (onExpand)="expandPlayer($event)"></app-player-mini>
+
+
+  </main>

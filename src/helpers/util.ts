@@ -9,4 +9,14 @@ export class Utils {
 
     return (hour > 0 ? [hour, minute, sec] : [minute, sec]).map(add0).join(':');
   }
+  static randomOrder(length: number) {
+    function shuffle(arr: number[]) {
+      for (let i = arr.length - 1; i >= 0; i--) {
+        const r = Math.floor(Math.random() * (i + 1));
+        [arr[i], arr[r]] = [arr[r], arr[i]];
+      }
+      return arr;
+    }
+    return shuffle([...Array(length)].map((item, i) => i));
+  }
 }
