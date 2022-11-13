@@ -102,5 +102,8 @@
       }
     }
   },
-  "defaultProject": "angular-music-player"
+  "defaultProject": "angular-music-player",
+  "cli": {
+    "analytics": false
+  }
 }
